@@ -22,10 +22,10 @@
 #define MAX_ACCELERATION 15.0
 #define GRAVITY -9.8
 #define PI 3.1415926
-#define MIN_ROTATE_DELTA 0.1
+#define MIN_ROTATE_DELTA 1.0f
 #define MAX_ROTATE_DELTA 3
 //in second
-#define PARTICLE_SPAWN_INTERVAL 0.00001
+#define PARTICLE_SPAWN_INTERVAL 0.001
 #define GROUND -100.0
 
 int windowWidth = 1024;
@@ -37,6 +37,15 @@ bool keyPressed[4] = {false};
 //glfw window
 GLFWwindow* window = nullptr;
 
+
+//light structure
+struct light 
+{
+	glm::vec3 lightPos;
+	glm::vec3 lightColor;
+};
+
+
 namespace vertex
 {
 	unsigned int VBO;
@@ -45,17 +54,17 @@ namespace vertex
 
 	float vertices[] =
 	{
-		//face 1
-		-0.5f, 0.25f, 0.0001f, 0.0f, 1.0f,
-		0.5f, 0.25f, 0.0001f, 1.0f, 1.0f,
-		-0.5f, -0.25f, 0.0001f, 0.0f, 0.5f,
-		0.5f, -0.25f, 0.0001f, 1.0f, 0.5f,
+		//vertex coordinates, texture coordinates and normal vector
+		-0.5f, 0.25f, 0.001f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		0.5f, 0.25f, 0.001f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		-0.5f, -0.25f, 0.001f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f,
+		0.5f, -0.25f, 0.001f, 1.0f, 0.5f, 0.0f, 0.0f, 1.0f,
 
 		//face 2
-		-0.5f, 0.25f, -0.0001f, 0.0f, 0.5f,
-		0.5f, 0.25f, -0.0001f, 1.0f, 0.5f,
-		-0.5f, -0.25f, -0.0001f, 0.0f, 0.0f,
-		0.5f, -0.25f, -0.0001f, 1.0f, 0.0f,
+		-0.5f, 0.25f, -0.001f, 0.0f, 0.5f, 0.0f, 0.0f, -1.0f,
+		0.5f, 0.25f, -0.001f, 1.0f, 0.5f, 0.0f, 0.0f, -1.0f,
+		-0.5f, -0.25f, -0.001f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f,
+		0.5f, -0.25f, -0.001f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f,
 	};
 
 	unsigned int elements[] = 
@@ -80,11 +89,14 @@ namespace vertex
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 		//set vertex attributes for vertex shader
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0); //vertex location
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));// texture coordinate
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); //vertex location
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));// texture coordinate
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
+
 		//enable attributes
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
 
 		//bind EBO
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -244,6 +256,14 @@ int main(void)
 	//set random seed
 	srand(time(NULL));
 
+	//define light source
+	light light0;
+	light0.lightPos = glm::vec3(0.0f, 100.0f, 0.0f);
+	light0.lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
+	//set light location
+	glUniform3fv(shader.getUniformLocation("lightPosition"), 1, glm::value_ptr(light0.lightPos));
+	glUniform3fv(shader.getUniformLocation("lightColor"), 1, glm::value_ptr(light0.lightColor));
+
 	//render loop
 	while (!glfwWindowShouldClose(window)) 
 	{
@@ -266,6 +286,7 @@ int main(void)
 		camera.update(delta_t);
 		glUniformMatrix4fv(shader.getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(camera.view));
 		glUniformMatrix4fv(shader.getUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(camera.projection));
+		glUniform3fv(shader.getUniformLocation("cameraPosition"), 1, glm::value_ptr(camera.location));
 
 		//spawn new particles
 		particleSpawnCounter += delta_t;
@@ -317,6 +338,7 @@ int main(void)
 					particles[i].position += particles[i].velocity;
 					particles[i].set();
 					glUniformMatrix4fv(shader.getUniformLocation("model"), 1, GL_FALSE, glm::value_ptr(particles[i].matrix));
+					glUniform3fv(shader.getUniformLocation("modelPos"), 1, glm::value_ptr(particles[i].position));
 					glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
 				}
 			

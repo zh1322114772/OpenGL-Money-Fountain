@@ -1,2 +1,47 @@
 ﻿  Main.cpp
+C:\Users\otz55\source\repos\OpenGl_MoneyFountain\OpenGl_MoneyFountain\Camera.hpp(47,34): warning C4244: 'argument': conversion from 'genType' to 'float', possible loss of data
+          with
+          [
+              genType=double
+          ]
+C:\Users\otz55\source\repos\OpenGl_MoneyFountain\OpenGl_MoneyFountain\Camera.hpp(47,63): warning C4244: 'argument': conversion from 'genType' to 'float', possible loss of data
+          with
+          [
+              genType=double
+          ]
+C:\Users\otz55\source\repos\OpenGl_MoneyFountain\OpenGl_MoneyFountain\Camera.hpp(48,34): warning C4244: 'argument': conversion from 'genType' to 'float', possible loss of data
+          with
+          [
+              genType=double
+          ]
+C:\Users\otz55\source\repos\OpenGl_MoneyFountain\OpenGl_MoneyFountain\Camera.hpp(49,34): warning C4244: 'argument': conversion from 'genType' to 'float', possible loss of data
+          with
+          [
+              genType=double
+          ]
+C:\Users\otz55\source\repos\OpenGl_MoneyFountain\OpenGl_MoneyFountain\Camera.hpp(49,63): warning C4244: 'argument': conversion from 'genType' to 'float', possible loss of data
+          with
+          [
+              genType=double
+          ]
+C:\Users\otz55\source\repos\OpenGl_MoneyFountain\OpenGl_MoneyFountain\Main.cpp(199,33): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+C:\Users\otz55\source\repos\OpenGl_MoneyFountain\OpenGl_MoneyFountain\Main.cpp(245,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\otz55\source\repos\OpenGl_MoneyFountain\OpenGl_MoneyFountain\Main.cpp(284,40): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\otz55\source\repos\OpenGl_MoneyFountain\OpenGl_MoneyFountain\Main.cpp(285,75): warning C4244: 'argument': conversion from 'genType' to 'float', possible loss of data
+          with
+          [
+              genType=double
+          ]
+C:\Users\otz55\source\repos\OpenGl_MoneyFountain\OpenGl_MoneyFountain\Main.cpp(285,43): warning C4244: 'argument': conversion from 'genType' to 'float', possible loss of data
+          with
+          [
+              genType=double
+          ]
+C:\Users\otz55\source\repos\OpenGl_MoneyFountain\OpenGl_MoneyFountain\Main.cpp(294,47): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\otz55\source\repos\OpenGl_MoneyFountain\OpenGl_MoneyFountain\Main.cpp(295,78): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\otz55\source\repos\OpenGl_MoneyFountain\OpenGl_MoneyFountain\Main.cpp(314,61): warning C4244: '+=': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
   OpenGl_MoneyFountain.vcxproj -> C:\Users\otz55\source\repos\OpenGl_MoneyFountain\x64\Debug\OpenGl_MoneyFountain.exe
